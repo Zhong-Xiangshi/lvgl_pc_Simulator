@@ -69,8 +69,7 @@ file(GLOB_RECURSE THORVG_SOURCES ${LVGL_ROOT_DIR}/src/libs/thorvg/*.cpp
 add_library(lvgl ${SOURCES})
 add_library(lvgl::lvgl ALIAS lvgl)
 
-
-set(CMAKE_PREFIX_PATH "SDL2-2.32.8")
+set(CMAKE_PREFIX_PATH "../SDL2-2.32.8")
 find_package(SDL2 REQUIRED)
 target_link_libraries(lvgl PUBLIC SDL2::SDL2-static SDL2::SDL2main)
 
