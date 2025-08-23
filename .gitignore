@@ -1,2 +1,10 @@
-build
-.cache
+# Ignore build folder
+build/
+
+
+# Ignore all dot folders, with below exceptions
+.*/
+
+# VSCode
+!.vscode/
+!.vscode/*

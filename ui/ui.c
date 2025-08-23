@@ -2,12 +2,14 @@
 #include <lvgl.h>
 #include <lv_examples.h>
 #include <lv_demos.h>
+#include <widgets/lv_demo_widgets.h>
 
 void ui_init(void) {
 
     // lv_example_anim_1();
 
-    lv_demo_benchmark();
+    // lv_demo_benchmark();
+    lv_demo_widgets();
 
     /* 简单 UI*/
     // lv_obj_t *btn = lv_button_create(lv_screen_active());
