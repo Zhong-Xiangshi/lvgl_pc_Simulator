@@ -13,7 +13,7 @@ LVGL PC模拟器，已链接好SDL和LVGL库。
 #define LV_USE_FS_WIN32 1
 #if LV_USE_FS_WIN32
     #define LV_FS_WIN32_LETTER 'A'     /**< Set an upper-case driver-identifier letter for this driver (e.g. 'A'). */
-    #define LV_FS_WIN32_PATH "D:/work/lvgl_pc_Simulator/resource/"         /**< Set the working directory. File/directory paths will be appended to it. */
+    #define LV_FS_WIN32_PATH "D:/work/lvgl_pc_Simulator/resource"         /**< Set the working directory. File/directory paths will be appended to it. */
     #define LV_FS_WIN32_CACHE_SIZE 0    /**< >0 to cache this number of bytes in lv_fs_read() */
 #endif
 ```
@@ -35,9 +35,9 @@ LVGL PC模拟器，已链接好SDL和LVGL库。
 ``` c
 lv_obj_t* img = lv_image_create(lv_scr_act());
 lv_obj_center(img);
-lv_image_set_src(img, "A:images/waring.png");
+lv_image_set_src(img, "A:/images/waring.png");
 
-lv_font_t *ttf=lv_tiny_ttf_create_file("A:fonts/NotoSansSC-VariableFont_wght.ttf", 40);
+lv_font_t *ttf=lv_tiny_ttf_create_file("A:/fonts/NotoSansSC-VariableFont_wght.ttf", 40);
 lv_obj_t* label = lv_label_create(lv_scr_act());
 lv_label_set_text(label, "你好 LVGL!");
 lv_obj_set_style_text_font(label, ttf, 0);
