@@ -6,6 +6,7 @@ endif()
 
 set(LVGL_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
 
+add_subdirectory(freetype-2.13.3)
 if(ESP_PLATFORM)
   include(${CMAKE_CURRENT_LIST_DIR}/env_support/cmake/esp.cmake)
 elseif(ZEPHYR_BASE)
@@ -15,3 +16,5 @@ elseif(MICROPY_DIR)
 else()
   include(${CMAKE_CURRENT_LIST_DIR}/env_support/cmake/custom.cmake)
 endif()
+
+target_link_libraries(lvgl PUBLIC freetype)

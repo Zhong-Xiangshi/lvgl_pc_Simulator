@@ -89,7 +89,7 @@ int main(int argc, char **argv)
     /* Periodically call the lv_task handler.
      * It could be done in a timer interrupt or an OS task too.*/
     lv_timer_handler();
-    usleep(3 * 1000);
+    usleep(15 * 1000);
   }
 
   hal_deinit();
