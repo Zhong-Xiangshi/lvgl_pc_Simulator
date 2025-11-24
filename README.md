@@ -17,7 +17,8 @@ LVGL PC模拟器，已链接好SDL和LVGL库。
     #define LV_FS_WIN32_CACHE_SIZE 0    /**< >0 to cache this number of bytes in lv_fs_read() */
 #endif
 ```
-2. 字体 LV_USE_TINY_TTF https://lvgl.100ask.net/master/details/libs/tiny_ttf.html
+2. 字体
+- LV_USE_TINY_TTF https://lvgl.100ask.net/master/details/libs/tiny_ttf.html
 ``` c
 #define LV_USE_TINY_TTF 1
 #if LV_USE_TINY_TTF
@@ -25,7 +26,20 @@ LVGL PC模拟器，已链接好SDL和LVGL库。
     #define LV_TINY_TTF_FILE_SUPPORT 1
     #define LV_TINY_TTF_CACHE_GLYPH_CNT 256
 #endif
-```
+```  
+- Freetype
+``` c
+/** FreeType library */
+#define LV_USE_FREETYPE 1
+#if LV_USE_FREETYPE
+    /** Let FreeType use LVGL memory and file porting */
+    #define LV_FREETYPE_USE_LVGL_PORT 1
+
+    /** Cache count of glyphs in FreeType, i.e. number of glyphs that can be cached.
+     *  The higher the value, the more memory will be used. */
+    #define LV_FREETYPE_CACHE_FT_GLYPH_CNT 256
+#endif
+```  
 3. 图片 LV_USE_LODEPNG https://lvgl.100ask.net/master/details/libs/lodepng.html
 ``` c
 /** LODEPNG decoder library */
