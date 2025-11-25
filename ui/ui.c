@@ -6,6 +6,7 @@
 void ui_init(void) {
 
     lv_example_anim_1();
+    // lv_example_freetype_1();
 
     // lv_demo_benchmark();
 

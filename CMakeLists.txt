@@ -4,6 +4,7 @@ project(lvgl-pc VERSION 0.1.0 LANGUAGES C)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(lvgl)
+add_subdirectory(freetype-2.14.1)
 
 set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/SDL2-2.32.10")
 find_package(SDL2 REQUIRED)
@@ -14,3 +15,6 @@ add_executable(lvgl-pc main.c ui/ui.c)
 target_include_directories(lvgl-pc PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/ui)
 
 target_link_libraries(lvgl-pc PRIVATE lvgl)
+
+# printf重定向到控制台，代价是双击exe时会弹出一个黑色的控制台窗口。终端中启动时打印信息会显示在终端上
+target_link_options(lvgl-pc PRIVATE -mconsole)  
