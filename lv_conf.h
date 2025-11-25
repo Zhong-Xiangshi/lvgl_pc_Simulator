@@ -12,7 +12,7 @@
  */
 
 /* clang-format off */
-#if 0 /* Set this to "1" to enable content */
+#if 1 /* Set this to "1" to enable content */
 
 #ifndef LV_CONF_H
 #define LV_CONF_H
@@ -1209,9 +1209,9 @@
  *==================*/
 
 /** Use SDL to open window on PC and handle mouse and keyboard. */
-#define LV_USE_SDL              0
+#define LV_USE_SDL              1
 #if LV_USE_SDL
-    #define LV_SDL_INCLUDE_PATH     <SDL2/SDL.h>
+    #define LV_SDL_INCLUDE_PATH     <SDL.h>
     #define LV_SDL_RENDER_MODE      LV_DISPLAY_RENDER_MODE_DIRECT   /**< LV_DISPLAY_RENDER_MODE_DIRECT is recommended for best performance */
     #define LV_SDL_BUF_COUNT        1    /**< 1 or 2 */
     #define LV_SDL_ACCELERATED      1    /**< 1: Use hardware acceleration*/
