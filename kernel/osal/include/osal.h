@@ -5,7 +5,7 @@
  * =====================================================================
  * OSAL 操作系统抽象层(FreeRTOS 风格)
  *
- * 提供任务 / 信号量 / 消息队列 / 互斥锁四类抽象,语义对齐 FreeRTOS:
+ * 提供任务 / 信号量 / 消息队列 / 互斥锁 / 内存分配五类抽象,语义对齐 FreeRTOS:
  *   - 句柄式 API,对象动态创建;
  *   - 阻塞操作带毫秒超时(OSAL_WAIT_FOREVER / OSAL_NO_WAIT);
  *   - 队列按值拷贝(FIFO);
@@ -21,6 +21,7 @@
  */
 
 #include <stdint.h>
+#include <stddef.h>  /* size_t */
 
 #ifdef __cplusplus
 extern "C" {
@@ -156,6 +157,23 @@ osal_err_t osal_mutex_give(osal_mutex_t *m);
 
 /** @brief 删除互斥锁(NULL 安全)。删除仍在使用中的对象属未定义行为(同 FreeRTOS 约定)。 */
 void osal_mutex_delete(osal_mutex_t *m);
+
+/* ==================== 内存分配 ==================== */
+/**
+ * @brief 分配内存(等价 FreeRTOS pvPortMalloc)。
+ *        失败返回 NULL,不打印不终止,由调用方决定处理方式。
+ */
+void *osal_malloc(size_t size);
+
+/**
+ * @brief 重新分配(等价 FreeRTOS pvPortRealloc)。
+ * @param ptr 原块指针,可为 NULL(等价 osal_malloc)。
+ * @return 新块指针;失败返回 NULL 且原块保持不变。
+ */
+void *osal_realloc(void *ptr, size_t size);
+
+/** @brief 释放内存(等价 FreeRTOS vPortFree)。NULL 安全。 */
+void osal_free(void *ptr);
 
 #ifdef __cplusplus
 }

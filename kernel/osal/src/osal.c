@@ -12,6 +12,8 @@
  *   osal_sem_*         -> xSemaphoreCreateBinary/Counting + xSemaphoreTake/Give
  *   osal_queue_*       -> xQueueCreate/xQueueSend/xQueueReceive/uxQueueMessagesWaiting
  *   osal_mutex_*       -> xSemaphoreCreateRecursiveMutex + xSemaphoreTakeRecursive/GiveRecursive
+ *   osal_malloc/free   -> pvPortMalloc/vPortFree(+heap_x.c);第三方库(uthash 等)
+ *                        的分配统一改走本接口,移植时无需再改库代码
  *
  * 本后端关键实现说明:
  *   1) 超时路径统一为 pthread_mutex + pthread_cond + 谓词 while 循环,
@@ -437,4 +439,24 @@ void osal_mutex_delete(osal_mutex_t *m)
     pthread_cond_destroy(&m->cond);
     pthread_mutex_destroy(&m->lock);
     free(m);
+}
+
+/* =====================================================================
+ * 内存分配(libc 后端直接包装 stdlib;FreeRTOS 移植对应
+ * pvPortMalloc / pvPortRealloc / vPortFree)
+ * ===================================================================== */
+
+void *osal_malloc(size_t size)
+{
+    return malloc(size);
+}
+
+void *osal_realloc(void *ptr, size_t size)
+{
+    return realloc(ptr, size);
+}
+
+void osal_free(void *ptr)
+{
+    free(ptr);
 }
