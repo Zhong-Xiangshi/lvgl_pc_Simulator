@@ -31,6 +31,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include <string.h>
 #include "utarray.h"  // for "UT_icd"
+#include "osal.h"    /* LVGL PC Simulator 定制:分配器走 OSAL(可随平台切换) */
 
 typedef struct {
     unsigned i;       /* index of next available slot; wraps at n */
@@ -44,7 +45,7 @@ typedef struct {
   memset(a, 0, sizeof(UT_ringbuffer));                                    \
   (a)->icd = *(_icd);                                                     \
   (a)->n = (_n);                                                          \
-  if ((a)->n) { (a)->d = (char*)malloc((a)->n * (_icd)->sz); }            \
+  if ((a)->n) { (a)->d = (char*)osal_malloc((a)->n * (_icd)->sz); }       \
 } while(0)
 
 #define utringbuffer_clear(a) do {                                        \
@@ -67,18 +68,18 @@ typedef struct {
 
 #define utringbuffer_done(a) do {                                         \
   utringbuffer_clear(a);                                                  \
-  free((a)->d); (a)->d = NULL;                                            \
+  osal_free((a)->d); (a)->d = NULL;                                       \
   (a)->n = 0;                                                             \
 } while(0)
 
 #define utringbuffer_new(a,n,_icd) do {                                   \
-  a = (UT_ringbuffer*)malloc(sizeof(UT_ringbuffer));                      \
+  a = (UT_ringbuffer*)osal_malloc(sizeof(UT_ringbuffer));                 \
   utringbuffer_init(a, n, _icd);                                          \
 } while(0)
 
 #define utringbuffer_free(a) do {                                         \
   utringbuffer_done(a);                                                   \
-  free(a);                                                                \
+  osal_free(a);                                                           \
 } while(0)
 
 #define utringbuffer_push_back(a,p) do {                                                \

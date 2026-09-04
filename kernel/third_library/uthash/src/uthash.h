@@ -29,6 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>   /* memcmp, memset, strlen */
 #include <stddef.h>   /* ptrdiff_t */
 #include <stdlib.h>   /* exit */
+#include "osal.h"     /* LVGL PC Simulator 定制:分配器走 OSAL(可随平台切换) */
 
 #if defined(HASH_NO_STDINT) && HASH_NO_STDINT
 /* The user doesn't have <stdint.h>, and must figure out their own way
@@ -72,10 +73,10 @@ do {                                                                            
 #endif
 
 #ifndef uthash_malloc
-#define uthash_malloc(sz) malloc(sz)      /* malloc fcn                      */
+#define uthash_malloc(sz) osal_malloc(sz) /* malloc fcn -> OSAL             */
 #endif
 #ifndef uthash_free
-#define uthash_free(ptr,sz) free(ptr)     /* free fcn                        */
+#define uthash_free(ptr,sz) osal_free(ptr) /* free fcn  -> OSAL             */
 #endif
 #ifndef uthash_bzero
 #define uthash_bzero(a,n) memset(a,'\0',n)
