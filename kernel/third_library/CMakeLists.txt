@@ -4,4 +4,5 @@
 # 这里仅向 kernel 目标挂载头文件搜索路径。
 # 注意:uthash/src 内分配器(malloc/free/realloc)已定制为 osal_*(走 OSAL,
 # 见 osal.h 内存分配节),各 ut*.h 自带 #include "osal.h",调用方无需额外包含。
-target_include_directories(kernel INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/uthash/src)
+# PUBLIC:kernel 自身源文件(pubsub.c 为首个 uthash 消费者)与消费方均可包含
+target_include_directories(kernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/uthash/src)
