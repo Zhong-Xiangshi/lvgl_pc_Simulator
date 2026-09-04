@@ -1,28 +1,13 @@
-#include <stdio.h>
-#include <lvgl.h>
-#include <SDL.h>
-#include <ui.h>
-
-void ui_driver_init(void) {
-    /* 创建一个 SDL 窗口作为 LVGL 显示 */
-    int width = 480, height = 480;
-    lv_display_t *disp = lv_sdl_window_create(width, height);
-
-    /* 创建输入设备（鼠标/键盘/滚轮） */
-    lv_indev_t *mouse = lv_sdl_mouse_create(); 
-    lv_indev_t *kb    = lv_sdl_keyboard_create(); 
-    lv_indev_t *wheel = lv_sdl_mousewheel_create(); 
-}
-
+#include "app.h"
+#include "osal.h"
 
 int main(int argc, char**argv){
-    lv_init();
-    ui_driver_init(); // 初始化驱动
-    ui_init(); // 初始化 UI
-    lv_tick_set_cb(SDL_GetTicks);
-    while (1) {
-        lv_timer_handler();   // 处理 LVGL 任务
-        SDL_Delay(2);
-    }
+    (void)argc;
+    (void)argv;
+    app_init();   /* 启动各服务线程,LVGL 在独立 AO 线程中运行 */
+
+    /* 主线程无业务,挂起自身;进程生命周期由各服务线程维持 */
+    osal_sem_t *hold = osal_sem_create(1u, 0u);
+    osal_sem_take(hold, OSAL_WAIT_FOREVER);
     return 0;
 }
