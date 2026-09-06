@@ -1,6 +1,5 @@
 #include <lvgl.h>
 #include <SDL.h>
-#include <ui/ui.h>
 #include "lvgl_service.h"
 
 static ao_t s_lvgl_ao;
@@ -22,7 +21,6 @@ static void lvgl_thread_entry(void *arg)
     (void)arg;
     lv_init();
     ui_driver_init();
-    ui_init();
     lv_tick_set_cb(SDL_GetTicks);
 
     while (1) {

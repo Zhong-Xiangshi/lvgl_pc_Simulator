@@ -4,6 +4,8 @@
 
 #include "pubsub.h"
 
+#include "lvgl_service.h"
+
 void kernel_init(void)
 {
     /* 发布-订阅总线:创建 broker 线程(pubsub_init 幂等)。
@@ -11,4 +13,5 @@ void kernel_init(void)
     if (pubsub_init() != 0) {
         fprintf(stderr, "[KERNEL] pubsub_init 失败\n");
     }
+    lvgl_service_init();
 }
