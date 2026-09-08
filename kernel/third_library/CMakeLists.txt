@@ -7,6 +7,9 @@
 # PUBLIC:kernel 自身源文件(pubsub.c 为首个 uthash 消费者)与消费方均可包含
 target_include_directories(kernel PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/uthash/src)
 
+# EasyLogger 日志库:目录内 CMakeLists 自管理(osal 适配的异步线程 + port 走 osal 打印)
+add_subdirectory(easylogger-2.2.0)
+
 # 模拟嵌入式裁剪开关:ON=默认,禁用 FreeType 全部外部依赖(zlib/png/bzip2/harfbuzz/brotli),
 # 仅注册 truetype/sfnt/smooth 模块(本工程只渲染 .ttf,裁剪后 simulator.exe 体积约小 28%);
 # OFF=桌面全量,自动探测外部依赖并注册全部 19 个模块(可渲染 .otf/.cff 等,

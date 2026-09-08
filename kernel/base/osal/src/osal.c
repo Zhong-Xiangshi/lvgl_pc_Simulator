@@ -14,6 +14,7 @@
  *   osal_mutex_*       -> xSemaphoreCreateRecursiveMutex + xSemaphoreTakeRecursive/GiveRecursive
  *   osal_malloc/free   -> pvPortMalloc/vPortFree(+heap_x.c);第三方库(uthash 等)
  *                        的分配统一改走本接口,移植时无需再改库代码
+ *   osal_printf        -> 串口/调试口 printf(嵌入式无标准输出时的打印通道)
  *
  * 本后端关键实现说明:
  *   1) 超时路径统一为 pthread_mutex + pthread_cond + 谓词 while 循环,
@@ -38,6 +39,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <errno.h>
 #include <pthread.h>
 
@@ -129,7 +131,7 @@ void osal_task_delete(osal_task_t *task)
     /* pthread 后端不支持强制删除其他线程:分离线程无法 join;用 pthread_cancel
      * (延迟取消)可能让目标线程带着内部锁退出导致死锁。打印警告后忽略,
      * FreeRTOS 移植可直接 vTaskDelete(task)。 */
-    fprintf(stderr, "[OSAL] 警告: pthread 后端不支持删除其他任务,已忽略\n");
+    osal_printf("[OSAL] 警告: pthread 后端不支持删除其他任务,已忽略\n");
 }
 
 void osal_task_delay_ms(uint32_t ms)
@@ -459,4 +461,19 @@ void *osal_realloc(void *ptr, size_t size)
 void osal_free(void *ptr)
 {
     free(ptr);
+}
+
+/* =====================================================================
+ * 控制台输出(stdout 后端;FreeRTOS 移植对应串口/调试口)
+ * ===================================================================== */
+
+int osal_printf(const char *fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    /* stdio 内部自锁:一次调用内的完整消息不会被其他线程拆散 */
+    int n = vfprintf(stdout, fmt, ap);
+    va_end(ap);
+    fflush(stdout);  /* 无缓冲语义:管道/重定向下也立即可见 */
+    return n;
 }

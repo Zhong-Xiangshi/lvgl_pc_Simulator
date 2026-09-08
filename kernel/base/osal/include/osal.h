@@ -175,6 +175,15 @@ void *osal_realloc(void *ptr, size_t size);
 /** @brief 释放内存(等价 FreeRTOS vPortFree)。NULL 安全。 */
 void osal_free(void *ptr);
 
+/* ==================== 控制台输出 ==================== */
+/**
+ * @brief 格式化输出到调试控制台(等价嵌入式 printf/串口调试口)。
+ *        每次调用一次性完整输出并刷新(无缓冲),单条消息不会被其他线程的
+ *        打印拆散;FreeRTOS 移植时映射到串口/调试口。
+ * @return 与 printf 相同:输出字符数,失败为负。
+ */
+int osal_printf(const char *fmt, ...);
+
 #ifdef __cplusplus
 }
 #endif
