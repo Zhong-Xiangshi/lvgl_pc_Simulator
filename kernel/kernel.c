@@ -4,7 +4,7 @@
 
 #include "pubsub.h"
 
-#include "lvgl_service.h"
+
 
 /** @brief 日志服务初始化(在一切内核组件之前调用,组件其后即可用 elog_* 输出) */
 static void elog_log_init(void)
@@ -36,5 +36,4 @@ void kernel_init(void)
     if (pubsub_init() != 0) {
         elog_w("kernel", "pubsub_init 失败");
     }
-    lvgl_service_init();
 }

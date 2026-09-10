@@ -3,11 +3,13 @@ project(simulator VERSION 0.1.0 LANGUAGES C)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(kernel)
+add_subdirectory(framework)
 add_subdirectory(app)
 
 add_executable(simulator main.c)
 
 target_link_libraries(simulator PRIVATE kernel)
+target_link_libraries(simulator PRIVATE framework)
 target_link_libraries(simulator PRIVATE app)
 
 # 强制链接器提取 lvgl 内的 lv_ftsystem.o 提供 FreeType 系统层(内存走 lv_malloc、文件流走 lv_fs)。
